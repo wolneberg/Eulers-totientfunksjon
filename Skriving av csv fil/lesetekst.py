@@ -1,31 +1,38 @@
+# Dette program lager en .csv fil utifra tabellen i http://primefan.tripod.com/Phi500.html
 
-import pylab as pl
+import urllib.request    # For å bruke urllib.request.urlopen()
 
-data = pl.loadtxt("textfil.txt",  str)
+tekst = urllib.request.urlopen("https://raw.githubusercontent.com/wolneberg/Eulers-totientfunksjon/master/Skriving%20av%20csv%20fil/textfil.txt")
 
-første = []    # The first collumn
-andre = []    # The second collumn
-tredje=[]    # The third collumn
+import pylab as pl    # For å bruke pl.loadtxt()
 
-for x in data[:,0]:
+data = pl.loadtxt(tekst,  str)    # "data" blir en array med 3 kolonner der elementene er strenger
+
+første = []    # Første kolonne
+andre = []    # Andre kolonne
+tredje=[]    # Tredje kolonne
+
+for x in data[:,0]:          # Første kolonne blir heltallene n
     første.append(int(x))
 
-for x in data[:,1]:
+for x in data[:,1]:         # Andre kolonne blir heltallene phy(n)
     andre.append(int(x))
 
-for x in data[:,2]:
+for x in data[:,2]:     # Tredje kolonne blir en liste av heltallene som er faktorer av n
     x = x.split(",")
     x = [int(i) for i in x]
     tredje.append(x)
 
-tabellen = []
+tabellen = []    # den endelige tabellen, som egentlig blir en liste av lister
 
-for x in range(0,500):
-    tabellen.append(list([]))
-    tabellen[x].append(første[x])
-    tabellen[x].append(andre[x])
-    tabellen[x].append(tredje[x])
-    
-for x in tabellen:
-    print(x)
-    
+for x in range(0,500):           # Hver rad i "tabellen" blir fylt inn
+    rad = [første[x], andre[x], tredje[x]]
+    tabellen.append(rad)
+
+import pandas as pd
+
+columns = ["n","phy(n)","faktorer"]    # Kolonnene i tabellen 
+
+dataframe = pd.DataFrame(tabellen, columns = columns)    # "tabellen" gjøres om til en pandas dataframe
+
+dataframe.to_csv("Euler500verdier.csv")
