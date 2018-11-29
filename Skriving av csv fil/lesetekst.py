@@ -1,4 +1,7 @@
-# Dette program lager en .csv fil utifra tabellen i http://primefan.tripod.com/Phi500.html
+"""
+Dette program lager en .csv fil utifra .txt filen i https://raw.githubusercontent.com/wolneberg/Eulers-totientfunksjon/master/Skriving%20av%20csv%20fil/textfil.txt
+som igjen har de samme verdiene som tabellen i http://primefan.tripod.com/Phi500.html
+"""
 
 import urllib.request    # For å bruke urllib.request.urlopen()
 
